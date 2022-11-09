@@ -70,7 +70,7 @@ app.post("/api/login", async (req, res, next) => {
 	// outgoing: id, firstName, lastName, error
 	var error = "";
 	const { login, password } = req.body;
-	const db = client.db("Cards");
+	const db = client.db("GymBroseph");
 	const results = await db
 		.collection("Users")
 		.find({ Login: login, Password: blueimp(password) })
@@ -87,26 +87,25 @@ app.post("/api/login", async (req, res, next) => {
 	res.status(200).json(ret);
 });
 
-// app.post('/api/searchcards', async (req, res, next) =>
-// {
-//   // incoming: userId, search
-//   // outgoing: results[], error
-//   var error = '';
-//   const { userId, search } = req.body;
-//   var _search = search.trim();
+app.post("/api/questionarre", async (req, res, next) => {
+	//incoming: userid, enum
+	//outgoing: error
+	const { userID, answer } = req.body;
+	const newAnswer = {
+		UserId: userID,
+		Answer: answer,
+	};
+	var error = "";
 
-//   const db = client.db("Cards");
-//   const results = await db.collection('Cards').find({"Card":{$regex:_search+'.*', $options:'r'}}).toArray();
+	try {
+		const db = client.db("GymBroseph");
+		const result = db.collection("Answers").insertOne(newAnswer);
+	} catch (e) {
+		error = e.toString();
+	}
 
-//   var _ret = [];
-//   for( var i=0; i<results.length; i++ )
-//   {
-//     _ret.push( results[i].Card );
-//   }
-
-//   var ret = {results:_ret, error:error};
-//   res.status(200).json(ret);
-// });
+	res.status(200).json(ret);
+});
 
 app.listen(PORT, () => {
 	console.log("Server listening on port " + PORT);
