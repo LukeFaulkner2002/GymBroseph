@@ -27,19 +27,17 @@ const getAnswer = async (req, res) => {
 
 //create a new answer
 const createAnswer = async (req, res) => {
-	const { title, load, reps } = req.body;
+	const { answer, userid } = req.body;
 
 	let emptyFields = [];
 
-	if (!title) {
-		emptyFields.push("title");
+	if (!answer) {
+		emptyFields.push("answer");
 	}
-	if (!load) {
-		emptyFields.push("load");
+	if (!userid) {
+		emptyFields.push("userid");
 	}
-	if (!reps) {
-		emptyFields.push("reps");
-	}
+
 	if (emptyFields.length > 0) {
 		return res
 			.status(400)
@@ -48,7 +46,7 @@ const createAnswer = async (req, res) => {
 
 	// add to the database
 	try {
-		const answer = await Answers.create({ title, load, reps });
+		const answer = await Answers.create({ answer, userid });
 		res.status(200).json(answer);
 	} catch (error) {
 		res.status(400).json({ error: error.message });
@@ -98,6 +96,6 @@ module.exports = {
 	getAnswers,
 	getAnswer,
 	createAnswer,
-	deleteAnswers,
+	deleteAnswer,
 	updateAnswer,
 };

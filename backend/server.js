@@ -57,6 +57,8 @@ app.use((req, res, next) => {
 	next();
 });
 
+//Login and Register
+
 app.post("/api/register", async (req, res, next) => {
 	const { firstName, lastName, login, password } = req.body;
 	const newUser = {

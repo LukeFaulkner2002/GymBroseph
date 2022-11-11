@@ -1,4 +1,4 @@
-import Exerciseroutines from "../schemas/exerciseroutinesModel";
+import Exerciseroutines from "../models/exerciseroutinesModel";
 import mongoose from "mongoose";
 
 //get All exerciseroutines
@@ -29,18 +29,18 @@ const getExerciseroutine = async (req, res) => {
 
 //create a new exerciseroutine
 const createExerciseroutine = async (req, res) => {
-	const { title, load, reps } = req.body;
+	const { userid, reps, load } = req.body;
 
 	let emptyFields = [];
 
-	if (!title) {
-		emptyFields.push("title");
-	}
-	if (!load) {
-		emptyFields.push("load");
+	if (!userid) {
+		emptyFields.push("userid");
 	}
 	if (!reps) {
 		emptyFields.push("reps");
+	}
+	if (!load) {
+		emptyFields.push("load");
 	}
 	if (emptyFields.length > 0) {
 		return res
@@ -51,9 +51,9 @@ const createExerciseroutine = async (req, res) => {
 	// add to the database
 	try {
 		const exerciseroutine = await Exerciseroutines.create({
-			title,
-			load,
+			userid,
 			reps,
+			load,
 		});
 		res.status(200).json(exerciseroutine);
 	} catch (error) {

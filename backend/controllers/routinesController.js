@@ -1,4 +1,4 @@
-import Routines from "../schemas/routinesModel";
+import Routines from "../models/routinesModel";
 import mongoose from "mongoose";
 
 //get All routines

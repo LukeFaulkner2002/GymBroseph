@@ -1,4 +1,4 @@
-import Exercises from "../schemas/exercisesModel";
+import Exercises from "../models/exercisesModel";
 import mongoose from "mongoose";
 
 //get All exercises
@@ -27,19 +27,24 @@ const getExercise = async (req, res) => {
 
 //create a new exercise
 const createExercise = async (req, res) => {
-	const { title, load, reps } = req.body;
+	const { name, musclegroup, accessibility, difficulty, warmupreq, rpe } =
+		req.body;
 
 	let emptyFields = [];
 
-	if (!title) {
-		emptyFields.push("title");
+	if (!name) {
+		emptyFields.push("name");
 	}
-	if (!load) {
-		emptyFields.push("load");
+	if (!musclegroup) {
+		emptyFields.push("musclegroup");
 	}
-	if (!reps) {
+	if (!accessibility) {
 		emptyFields.push("reps");
 	}
+	if (!difficulty) {
+		emptyFields.push("difficulty");
+	}
+
 	if (emptyFields.length > 0) {
 		return res
 			.status(400)
@@ -48,7 +53,14 @@ const createExercise = async (req, res) => {
 
 	// add to the database
 	try {
-		const exercise = await Exercises.create({ title, load, reps });
+		const exercise = await Exercises.create({
+			name,
+			musclegroup,
+			accessibility,
+			difficulty,
+			warmupreq,
+			rpe,
+		});
 		res.status(200).json(exercise);
 	} catch (error) {
 		res.status(400).json({ error: error.message });
