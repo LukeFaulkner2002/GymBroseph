@@ -56,3 +56,53 @@ app.use((req, res, next) => {
 	);
 	next();
 });
+
+app.post("/api/register", async (req, res, next) => {
+	const { firstName, lastName, login, password } = req.body;
+	const newUser = {
+		FirstName: firstName,
+		LastName: lastName,
+		Login: login,
+		Password: blueimp(password),
+		UserId: 5,
+	};
+	var error = "";
+
+	try {
+		const db = client.db("Cards");
+		const result = db.collection("Users").insertOne(newUser);
+	} catch (e) {
+		error = e.toString();
+	}
+
+	var ret = {
+		firstName: firstName,
+		lastName: lastName,
+		login: login,
+		password: blueimp(password),
+		error: error,
+	};
+	res.status(200).json(ret);
+});
+
+app.post("/api/login", async (req, res, next) => {
+	// incoming: login, password
+	// outgoing: id, firstName, lastName, error
+	var error = "";
+	const { login, password } = req.body;
+	const db = client.db("Cards");
+	const results = await db
+		.collection("Users")
+		.find({ Login: login, Password: blueimp(password) })
+		.toArray();
+	var id = -1;
+	var fn = "";
+	var ln = "";
+	if (results.length > 0) {
+		id = 1;
+		fn = results[0].FirstName;
+		ln = results[0].LastName;
+	}
+	var ret = { id: "1", firstName: fn, lastName: ln, error: "" };
+	res.status(200).json(ret);
+});
