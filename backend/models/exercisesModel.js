@@ -9,15 +9,15 @@ const exercisesSchema = new Schema(
 			required: true,
 		},
 		MuscleGroup: {
-			type: Enumerator,
+			type: Number,
 			required: true,
 		},
 		Accessibiility: {
-			type: Enumerator,
+			type: Number,
 			required: true,
 		},
 		Difficulty: {
-			type: Enumerator,
+			type: Number,
 			required: true,
 		},
 		WarmUpReq: {

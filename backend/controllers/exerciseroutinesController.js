@@ -1,5 +1,5 @@
-import Exerciseroutines from "../models/exerciseroutinesModel";
-import mongoose from "mongoose";
+Exerciseroutiness = require("../models/exerciseroutinesModel");
+mongoose = require("mongoose");
 
 //get All exerciseroutines
 const getExerciseroutines = async (req, res) => {
@@ -43,9 +43,7 @@ const createExerciseroutine = async (req, res) => {
 		emptyFields.push("load");
 	}
 	if (emptyFields.length > 0) {
-		return res
-			.status(400)
-			.json({ error: "Please fill in all fields", emptyFields });
+		return res.status(400).json({ error: "Please fill in all fields", emptyFields });
 	}
 
 	// add to the database

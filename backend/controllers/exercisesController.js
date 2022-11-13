@@ -1,5 +1,5 @@
-import Exercises from "../models/exercisesModel";
-import mongoose from "mongoose";
+Exercises = require("../models/exercisesModel");
+mongoose = require("mongoose");
 
 //get All exercises
 const getExercises = async (req, res) => {
@@ -27,8 +27,7 @@ const getExercise = async (req, res) => {
 
 //create a new exercise
 const createExercise = async (req, res) => {
-	const { name, musclegroup, accessibility, difficulty, warmupreq, rpe } =
-		req.body;
+	const { name, musclegroup, accessibility, difficulty, warmupreq, rpe } = req.body;
 
 	let emptyFields = [];
 
@@ -46,9 +45,7 @@ const createExercise = async (req, res) => {
 	}
 
 	if (emptyFields.length > 0) {
-		return res
-			.status(400)
-			.json({ error: "Please fill in all fields", emptyFields });
+		return res.status(400).json({ error: "Please fill in all fields", emptyFields });
 	}
 
 	// add to the database
@@ -68,7 +65,7 @@ const createExercise = async (req, res) => {
 };
 
 //delete a exercise
-const deleteRountine = async (req, res) => {
+const deleteExercise = async (req, res) => {
 	const { id } = req.params;
 
 	if (!mongoose.Types.ObjectId.isValid(id)) {

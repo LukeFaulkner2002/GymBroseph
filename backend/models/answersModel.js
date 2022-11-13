@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const answersSchema = new Schema(
 	{
 		Answer: {
-			type: Enumerator,
+			type: Number,
 			required: true,
 		},
 		UserId: {

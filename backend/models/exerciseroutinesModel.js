@@ -20,4 +20,4 @@ const exerciseroutineSchema = new Schema(
 	{ timestamps: true }
 );
 
-module.exports = mongoose.model("Exerciseroutine", workoutSchema);
+module.exports = mongoose.model("Exerciseroutine", exerciseroutineSchema);

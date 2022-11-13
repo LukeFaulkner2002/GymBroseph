@@ -5,7 +5,7 @@ const {
 	createRoutine,
 	deleteRoutine,
 	updateRoutine,
-} = require("../controllers/routineController");
+} = require("../controllers/routinesController");
 
 const router = express.Router();
 

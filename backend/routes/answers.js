@@ -5,7 +5,7 @@ const {
 	createAnswer,
 	deleteAnswer,
 	updateAnswer,
-} = require("../controllers/answerController");
+} = require("../controllers/answersController");
 
 const router = express.Router();
 

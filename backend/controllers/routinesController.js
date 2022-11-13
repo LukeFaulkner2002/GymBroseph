@@ -1,5 +1,5 @@
-import Routines from "../models/routinesModel";
-import mongoose from "mongoose";
+Routines = require("../models/routinesModel");
+mongoose = require("mongoose");
 
 //get All routines
 const getRoutines = async (req, res) => {
@@ -41,9 +41,7 @@ const createRoutine = async (req, res) => {
 		emptyFields.push("reps");
 	}
 	if (emptyFields.length > 0) {
-		return res
-			.status(400)
-			.json({ error: "Please fill in all fields", emptyFields });
+		return res.status(400).json({ error: "Please fill in all fields", emptyFields });
 	}
 
 	// add to the database
