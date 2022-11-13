@@ -29,8 +29,11 @@ const getExerciseroutine = async (req, res) => {
 
 //create a new exerciseroutine
 const createExerciseroutine = async (req, res) => {
-	const { userid, reps, load } = req.body;
-
+	try {
+		const { userid, reps, load } = req.body;
+	} catch (e) {
+		res.status(400).json({ error: error.message });
+	}
 	let emptyFields = [];
 
 	if (!userid) {

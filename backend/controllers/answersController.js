@@ -27,7 +27,11 @@ const getAnswer = async (req, res) => {
 
 //create a new answer
 const createAnswer = async (req, res) => {
-	const { answer, userid } = req.body;
+	try {
+		const { answer, userid } = req.body;
+	} catch (e) {
+		res.status(400).json({ error: error.message });
+	}
 
 	let emptyFields = [];
 

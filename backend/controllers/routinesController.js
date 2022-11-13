@@ -27,8 +27,11 @@ const getRoutine = async (req, res) => {
 
 //create a new routine
 const createRoutine = async (req, res) => {
-	const { title, load, reps } = req.body;
-
+	try {
+		const { title, load, reps } = req.body;
+	} catch (e) {
+		res.status(400).json({ error: error.message });
+	}
 	let emptyFields = [];
 
 	if (!title) {
