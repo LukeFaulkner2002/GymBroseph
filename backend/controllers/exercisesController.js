@@ -27,11 +27,8 @@ const getExercise = async (req, res) => {
 
 //create a new exercise
 const createExercise = async (req, res) => {
-	try {
-		const { name, musclegroup, accessibility, difficulty, warmupreq, rpe } = req.body;
-	} catch (e) {
-		res.status(400).json({ error: e.message });
-	}
+	const { name, musclegroup, accessibility, difficulty, warmupreq, rpe } = req.body;
+
 	let emptyFields = [];
 
 	if (!name) {
