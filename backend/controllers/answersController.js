@@ -30,7 +30,7 @@ const createAnswer = async (req, res) => {
 	try {
 		const { answer, userid } = req.body;
 	} catch (e) {
-		res.status(400).json({ error: error.message });
+		res.status(400).json({ error: e.message });
 	}
 
 	let emptyFields = [];

@@ -32,7 +32,7 @@ const createExerciseroutine = async (req, res) => {
 	try {
 		const { userid, reps, load } = req.body;
 	} catch (e) {
-		res.status(400).json({ error: error.message });
+		res.status(400).json({ error: e.message });
 	}
 	let emptyFields = [];
 

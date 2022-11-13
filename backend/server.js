@@ -46,7 +46,7 @@ app.use("/api/exerciseroutines", exerciseroutineRoutes);
 app.use("/api/exercises", exerciseRoutes);
 app.use("/api/routines", routineRoutes);
 
-//other tools to help us laters
+//other tools to help us later
 app.use(cors());
 app.use(bodyParser.json());
 app.use((req, res, next) => {
@@ -57,6 +57,29 @@ app.use((req, res, next) => {
 	);
 	res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS");
 	next();
+});
+
+//Error handling
+process
+	.on("uncaughtException", function (err) {
+		console.log("uncaught exception", err);
+	})
+	.on("unhandledRejection", (reason, p) => {
+		console.log("unhandledRejections reason", reason);
+	})
+	.on("warning", (warning) => {
+		console.log(`warning, ... ${warning}`);
+	});
+
+app.use(function (req, res, next) {
+	var err = new Error("Not Found");
+	err.status = 404;
+	next(err);
+});
+
+app.use(function (err, req, res, next) {
+	console.error(err.stack);
+	res.status(500).send("Something broke!");
 });
 
 //Login and Register
