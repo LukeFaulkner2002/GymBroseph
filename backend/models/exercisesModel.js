@@ -4,27 +4,27 @@ const Schema = mongoose.Schema;
 
 const exercisesSchema = new Schema(
 	{
-		Name: {
+		name: {
 			type: String,
 			required: true,
 		},
-		MuscleGroup: {
+		musclegroup: {
 			type: Number,
 			required: true,
 		},
-		Accessibiility: {
+		accessibiility: {
 			type: Number,
 			required: true,
 		},
-		Difficulty: {
+		difficulty: {
 			type: Number,
 			required: true,
 		},
-		WarmUpReq: {
+		warmupreq: {
 			type: Boolean,
 			required: false,
 		},
-		RPE: {
+		rpe: {
 			type: Number,
 			required: false,
 		},

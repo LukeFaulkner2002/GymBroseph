@@ -4,11 +4,11 @@ const Schema = mongoose.Schema;
 
 const routineSchema = new Schema(
 	{
-		NumberOfDays: {
+		numberofdays: {
 			type: Number,
 			required: true,
 		},
-		NumberOfExercises: {
+		numberofexercises: {
 			type: Number,
 			required: true,
 		},

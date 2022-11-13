@@ -27,12 +27,8 @@ const getAnswer = async (req, res) => {
 
 //create a new answer
 const createAnswer = async (req, res) => {
-	try {
-		const { answer, userid } = req.body;
-	} catch (e) {
-		res.status(400).json({ error: e.message });
-	}
-
+	const { answer, userid } = req.body;
+	console.log(req.Answer);
 	let emptyFields = [];
 
 	if (!answer) {
@@ -48,8 +44,8 @@ const createAnswer = async (req, res) => {
 
 	// add to the database
 	try {
-		const answer = await Answers.create({ answer, userid });
-		res.status(200).json(answer);
+		const Answer = await Answers.create({ answer, userid });
+		res.status(200).json(Answer);
 	} catch (error) {
 		res.status(400).json({ error: error.message });
 	}

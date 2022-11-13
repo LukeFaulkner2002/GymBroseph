@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const exerciseroutineSchema = new Schema(
 	{
-		UserID: {
+		userid: {
 			type: Number,
 			required: true,
 		},

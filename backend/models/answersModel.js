@@ -4,11 +4,11 @@ const Schema = mongoose.Schema;
 
 const answersSchema = new Schema(
 	{
-		Answer: {
+		answer: {
 			type: Number,
 			required: true,
 		},
-		UserId: {
+		userid: {
 			type: Number,
 			required: true,
 		},

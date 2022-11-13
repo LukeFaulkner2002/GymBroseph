@@ -40,13 +40,6 @@ if (process.env.NODE_ENV === "production") {
 
 //API and extra
 
-//routes
-app.use("/api/answers", answerRoutes);
-app.use("/api/exerciseroutines", exerciseroutineRoutes);
-app.use("/api/exercises", exerciseRoutes);
-app.use("/api/routines", routineRoutes);
-
-//other tools to help us later
 app.use(cors());
 app.use(bodyParser.json());
 app.use((req, res, next) => {
@@ -58,6 +51,12 @@ app.use((req, res, next) => {
 	res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS");
 	next();
 });
+
+//routes
+app.use("/api/answers", answerRoutes);
+app.use("/api/exerciseroutines", exerciseroutineRoutes);
+app.use("/api/exercises", exerciseRoutes);
+app.use("/api/routines", routineRoutes);
 
 //Error handling
 process
