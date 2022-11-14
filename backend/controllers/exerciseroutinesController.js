@@ -29,29 +29,31 @@ const getExerciseroutine = async (req, res) => {
 
 //create a new exerciseroutine
 const createExerciseroutine = async (req, res) => {
-	const { userid, reps, load } = req.body;
+	const { userid, exerciseid, routineid } = req.body;
 
 	let emptyFields = [];
 
 	if (!userid) {
 		emptyFields.push("userid");
 	}
-	if (!reps) {
-		emptyFields.push("reps");
+	if (!exerciseid) {
+		emptyFields.push("exerciseid");
 	}
-	if (!load) {
-		emptyFields.push("load");
+	if (!routineid) {
+		emptyFields.push("routineid");
 	}
 	if (emptyFields.length > 0) {
-		return res.status(400).json({ error: "Please fill in all fields", emptyFields });
+		return res
+			.status(400)
+			.json({ error: "Please fill in all fields", emptyFields });
 	}
 
 	// add to the database
 	try {
 		const exerciseroutine = await Exerciseroutines.create({
 			userid,
-			reps,
-			load,
+			exerciseid,
+			routineid,
 		});
 		res.status(200).json(exerciseroutine);
 	} catch (error) {
