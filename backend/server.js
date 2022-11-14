@@ -48,7 +48,10 @@ app.use((req, res, next) => {
 		"Access-Control-Allow-Headers",
 		"Origin, X-Requested-With, Content-Type, Accept, Authorization"
 	);
-	res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS");
+	res.setHeader(
+		"Access-Control-Allow-Methods",
+		"GET, POST, PATCH, DELETE, OPTIONS"
+	);
 	next();
 });
 
@@ -82,7 +85,7 @@ app.use(function (err, req, res, next) {
 });
 
 //Login and Register
-
+//TODO: Match User
 app.post("/api/register", async (req, res, next) => {
 	const { firstName, lastName, login, password } = req.body;
 	const newUser = {

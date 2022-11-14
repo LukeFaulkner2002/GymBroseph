@@ -6,10 +6,10 @@ const exerciseroutineSchema = new Schema(
 	{
 		userid: {
 			type: Number,
-			required: true,
+			required: false,
 		},
 		exerciseid: {
-			type: Number,
+			type: [Number],
 			required: true,
 		},
 		routineid: {
