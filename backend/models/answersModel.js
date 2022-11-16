@@ -5,11 +5,11 @@ const Schema = mongoose.Schema;
 const answersSchema = new Schema(
 	{
 		answer: {
-			type: Number,
+			type: [Number],
 			required: true,
 		},
 		userid: {
-			type: Number,
+			type: String,
 			required: true,
 		},
 	},

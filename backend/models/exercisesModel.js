@@ -9,24 +9,17 @@ const exercisesSchema = new Schema(
 			required: true,
 		},
 		musclegroup: {
-			type: Number,
+			type: String,
 			required: true,
 		},
 		accessibiility: {
-			type: Number,
-			required: true,
-		},
-		difficulty: {
-			type: Number,
+			type: String,
 			required: true,
 		},
 		warmupreq: {
 			type: Boolean,
 			required: false,
-		},
-		rpe: {
-			type: Number,
-			required: false,
+			default: true,
 		},
 	},
 	{ timestamps: true }

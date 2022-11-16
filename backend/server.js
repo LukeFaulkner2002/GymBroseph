@@ -87,18 +87,19 @@ app.use(function (err, req, res, next) {
 //Login and Register
 //TODO: Match User
 app.post("/api/register", async (req, res, next) => {
-	const { firstName, lastName, login, password, email, answerid, programid } =
-		req.body;
+	const { firstName, lastName, login, password, email } = req.body;
 	const newUser = {
 		FirstName: firstName,
 		LastName: lastName,
 		Login: login,
 		Password: blueimp(password),
+		Email: email,
 	};
+
 	var error = "";
 
 	try {
-		const db = client.db("Cards");
+		const db = client.db("GymBroseph");
 		const result = db.collection("Users").insertOne(newUser);
 	} catch (e) {
 		error = e.toString();
@@ -109,6 +110,9 @@ app.post("/api/register", async (req, res, next) => {
 		lastName: lastName,
 		login: login,
 		password: blueimp(password),
+		email: email,
+		answerid: "please send PATCH request to update this",
+		programid: "please send PATCH request to update this",
 		error: error,
 	};
 	res.status(200).json(ret);
@@ -119,7 +123,7 @@ app.post("/api/login", async (req, res, next) => {
 	// outgoing: id, firstName, lastName, error
 	var error = "";
 	const { login, password } = req.body;
-	const db = client.db("Cards");
+	const db = client.db("GymBroseph");
 	const results = await db
 		.collection("Users")
 		.find({ Login: login, Password: blueimp(password) })
@@ -134,4 +138,8 @@ app.post("/api/login", async (req, res, next) => {
 	}
 	var ret = { id: "1", firstName: fn, lastName: ln, error: "" };
 	res.status(200).json(ret);
+});
+
+app.patch("/api/users", async (req, res, next) => {
+	//incoming: answerid or programid
 });

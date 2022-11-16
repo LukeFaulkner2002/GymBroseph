@@ -5,15 +5,15 @@ const Schema = mongoose.Schema;
 const programSchema = new Schema(
 	{
 		userid: {
-			type: Number,
+			type: String,
 			required: false,
 		},
 		exerciseid: {
-			type: [Number],
+			type: [String],
 			required: true,
 		},
 		routineid: {
-			type: Number,
+			type: String,
 			required: true,
 		},
 	},

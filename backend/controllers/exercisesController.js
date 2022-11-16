@@ -27,7 +27,7 @@ const getExercise = async (req, res) => {
 
 //create a new exercise
 const createExercise = async (req, res) => {
-	const { name, musclegroup, accessibility, difficulty, warmupreq, rpe } = req.body;
+	const { name, musclegroup, accessibility, warmupreq } = req.body;
 
 	let emptyFields = [];
 
@@ -40,12 +40,14 @@ const createExercise = async (req, res) => {
 	if (!accessibility) {
 		emptyFields.push("reps");
 	}
-	if (!difficulty) {
-		emptyFields.push("difficulty");
+	if (!warmupreq) {
+		emptyFields.push("warmupreq");
 	}
 
 	if (emptyFields.length > 0) {
-		return res.status(400).json({ error: "Please fill in all fields", emptyFields });
+		return res
+			.status(400)
+			.json({ error: "Please fill in all fields", emptyFields });
 	}
 
 	// add to the database
