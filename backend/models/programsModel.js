@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const exerciseroutineSchema = new Schema(
+const programSchema = new Schema(
 	{
 		userid: {
 			type: Number,
@@ -20,4 +20,4 @@ const exerciseroutineSchema = new Schema(
 	{ timestamps: true }
 );
 
-module.exports = mongoose.model("Exerciseroutine", exerciseroutineSchema);
+module.exports = mongoose.model("Program", programSchema);

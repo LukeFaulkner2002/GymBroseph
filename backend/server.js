@@ -7,7 +7,7 @@ const mongoose = require("mongoose");
 
 //import routes
 const answerRoutes = require("./routes/answers");
-const exerciseroutineRoutes = require("./routes/exerciseroutines");
+const programRoutes = require("./routes/programs");
 const exerciseRoutes = require("./routes/exercises");
 const routineRoutes = require("./routes/routines");
 
@@ -57,7 +57,7 @@ app.use((req, res, next) => {
 
 //routes
 app.use("/api/answers", answerRoutes);
-app.use("/api/exerciseroutines", exerciseroutineRoutes);
+app.use("/api/programs", programRoutes);
 app.use("/api/exercises", exerciseRoutes);
 app.use("/api/routines", routineRoutes);
 
@@ -87,13 +87,13 @@ app.use(function (err, req, res, next) {
 //Login and Register
 //TODO: Match User
 app.post("/api/register", async (req, res, next) => {
-	const { firstName, lastName, login, password } = req.body;
+	const { firstName, lastName, login, password, email, answerid, programid } =
+		req.body;
 	const newUser = {
 		FirstName: firstName,
 		LastName: lastName,
 		Login: login,
 		Password: blueimp(password),
-		UserId: 5,
 	};
 	var error = "";
 
