@@ -48,10 +48,7 @@ app.use((req, res, next) => {
 		"Access-Control-Allow-Headers",
 		"Origin, X-Requested-With, Content-Type, Accept, Authorization"
 	);
-	res.setHeader(
-		"Access-Control-Allow-Methods",
-		"GET, POST, PATCH, DELETE, OPTIONS"
-	);
+	res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS");
 	next();
 });
 
@@ -138,8 +135,4 @@ app.post("/api/login", async (req, res, next) => {
 	}
 	var ret = { id: "1", firstName: fn, lastName: ln, error: "" };
 	res.status(200).json(ret);
-});
-
-app.patch("/api/users", async (req, res, next) => {
-	//incoming: answerid or programid
 });
