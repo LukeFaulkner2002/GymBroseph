@@ -4,6 +4,7 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const mongoose = require("mongoose");
+var blueimp = require("blueimp-md5");
 
 //import routes
 const answerRoutes = require("./routes/answers");
@@ -82,6 +83,9 @@ app.use(function (err, req, res, next) {
 });
 
 //Login and Register
+
+Users = require("../models/usersModel");
+
 //TODO: Match User
 app.post("/api/register", async (req, res, next) => {
 	const { firstName, lastName, login, password, email } = req.body;
