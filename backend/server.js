@@ -108,8 +108,6 @@ app.post("/api/register", async (req, res, next) => {
 		login: login,
 		password: blueimp(password),
 		email: email,
-		answerid: "please send PATCH request to update this",
-		programid: "please send PATCH request to update this",
 		error: error,
 	};
 	res.status(200).json(ret);

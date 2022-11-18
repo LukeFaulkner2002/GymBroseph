@@ -4,6 +4,10 @@ const Schema = mongoose.Schema;
 
 const routineSchema = new Schema(
 	{
+		programid: {
+			type: String,
+			required: true,
+		},
 		numberofdays: {
 			type: Number,
 			required: true,

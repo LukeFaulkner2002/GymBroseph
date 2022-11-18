@@ -6,7 +6,7 @@ const programSchema = new Schema(
 	{
 		userid: {
 			type: String,
-			required: false,
+			required: true,
 		},
 		exerciseid: {
 			type: [String],
