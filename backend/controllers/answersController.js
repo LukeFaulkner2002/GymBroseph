@@ -28,7 +28,7 @@ const getAnswer = async (req, res) => {
 //create a new answer
 const createAnswer = async (req, res) => {
 	const { answer, userid } = req.body;
-	console.log(req.Answer);
+
 	let emptyFields = [];
 
 	if (!answer) {

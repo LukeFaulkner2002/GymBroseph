@@ -86,55 +86,58 @@ app.use(function (err, req, res, next) {
 
 Users = require("../models/usersModel");
 
-//TODO: Match User
+//Create a user
 app.post("/api/register", async (req, res, next) => {
 	const { firstName, lastName, login, password, email } = req.body;
-	const newUser = {
-		FirstName: firstName,
-		LastName: lastName,
-		Login: login,
-		Password: blueimp(password),
-		Email: email,
-	};
 
-	var error = "";
+	let emptyFields = [];
 
-	try {
-		const db = client.db("GymBroseph");
-		const result = db.collection("Users").insertOne(newUser);
-	} catch (e) {
-		error = e.toString();
+	if (!firstname) {
+		emptyFields.push("firstname");
+	}
+	if (!lastname) {
+		emptyFields.push("lastname");
+	}
+	if (!login) {
+		emptyFields.push("login");
+	}
+	if (!password) {
+		emptyFields.push("password");
+	}
+	if (!email) {
+		emptyFields.push("email");
 	}
 
-	var ret = {
-		firstName: firstName,
-		lastName: lastName,
-		login: login,
-		password: blueimp(password),
-		email: email,
-		error: error,
-	};
-	res.status(200).json(ret);
+	if (emptyFields.length > 0) {
+		return res.status(400).json({ error: "Please fill in all fields", emptyFields });
+	}
+
+	// add to the database
+
+	try {
+		const exercise = await Users.create({
+			firstname,
+			lastname,
+			login,
+			difficulty,
+			password: blueimp(password),
+			email,
+		});
+		res.status(200).json(exercise);
+	} catch (error) {
+		res.status(400).json({ error: error.message });
+	}
 });
 
 app.post("/api/login", async (req, res, next) => {
-	// incoming: login, password
-	// outgoing: id, firstName, lastName, error
 	var error = "";
 	const { login, password } = req.body;
-	const db = client.db("GymBroseph");
-	const results = await db
-		.collection("Users")
-		.find({ Login: login, Password: blueimp(password) })
-		.toArray();
-	var id = -1;
-	var fn = "";
-	var ln = "";
-	if (results.length > 0) {
-		id = 1;
-		fn = results[0].FirstName;
-		ln = results[0].LastName;
+
+	const user = Users.find({ login: login, password: blueimp(password) });
+
+	if (!user) {
+		return res.status(404).json({ error: "No such user" });
 	}
-	var ret = { id: "1", firstName: fn, lastName: ln, error: "" };
-	res.status(200).json(ret);
+
+	res.status(200).json(user);
 });

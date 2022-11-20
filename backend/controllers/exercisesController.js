@@ -38,7 +38,7 @@ const createExercise = async (req, res) => {
 		emptyFields.push("musclegroup");
 	}
 	if (!accessibility) {
-		emptyFields.push("reps");
+		emptyFields.push("accessibility");
 	}
 	if (!warmupreq) {
 		emptyFields.push("warmupreq");
@@ -56,7 +56,6 @@ const createExercise = async (req, res) => {
 			accessibility,
 			difficulty,
 			warmupreq,
-			rpe,
 		});
 		res.status(200).json(exercise);
 	} catch (error) {
