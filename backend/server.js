@@ -84,7 +84,7 @@ app.use(function (err, req, res, next) {
 
 //Login and Register
 
-Users = require("../models/usersModel");
+Users = require("./models/usersModel");
 
 //Create a user
 app.post("/api/register", async (req, res, next) => {
