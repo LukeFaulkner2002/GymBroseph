@@ -84,11 +84,11 @@ app.use(function (err, req, res, next) {
 
 //Login and Register
 
-Users = require("./models/usersModel");
+const Users = require("./models/usersModel");
 
 //Create a user
 app.post("/api/register", async (req, res, next) => {
-	const { firstName, lastName, login, password, email } = req.body;
+	const { firstname, lastname, login, password, email } = req.body;
 
 	let emptyFields = [];
 
@@ -141,3 +141,5 @@ app.post("/api/login", async (req, res, next) => {
 
 	res.status(200).json(user);
 });
+
+module.exports = app;
