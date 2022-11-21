@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const mongoose = require("mongoose");
 var blueimp = require("blueimp-md5");
+const nodemailer = require("nodemailer");
 
 //import routes
 const answerRoutes = require("./routes/answers");
@@ -49,7 +50,10 @@ app.use((req, res, next) => {
 		"Access-Control-Allow-Headers",
 		"Origin, X-Requested-With, Content-Type, Accept, Authorization"
 	);
-	res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS");
+	res.setHeader(
+		"Access-Control-Allow-Methods",
+		"GET, POST, PATCH, DELETE, OPTIONS"
+	);
 	next();
 });
 
@@ -109,7 +113,9 @@ app.post("/api/register", async (req, res, next) => {
 	}
 
 	if (emptyFields.length > 0) {
-		return res.status(400).json({ error: "Please fill in all fields", emptyFields });
+		return res
+			.status(400)
+			.json({ error: "Please fill in all fields", emptyFields });
 	}
 
 	// add to the database
@@ -130,13 +136,68 @@ app.post("/api/register", async (req, res, next) => {
 });
 
 app.post("/api/login", async (req, res, next) => {
-	var error = "";
 	const { login, password } = req.body;
 
 	const user = Users.find({ login: login, password: blueimp(password) });
 
 	if (!user) {
 		return res.status(404).json({ error: "No such user" });
+	}
+
+	res.status(200).json(user);
+});
+
+app.get("/api/verification", async (req, res, next) => {
+	const { email } = req.body;
+
+	const user = Users.find({ email });
+
+	if (!user) {
+		return res.status(404).json({ error: "No such user" });
+	}
+
+	//email verification
+	let transporter = nodemailer.createTransport({
+		service: "gmail",
+		auth: {
+			user: process.env.AUTH_EMAIL,
+			pass: process.env.AUTH_PASS,
+		},
+	});
+
+	//nodemailer
+	transporter.verify((e, s) => {
+		if (e) {
+			console.log(e);
+			return res.status(500).json({ error: e });
+		} else {
+			console.log("ready for messages");
+			console.log(s);
+		}
+	});
+
+	console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+
+	res.status(200).json(user);
+});
+
+//To be used after the email verification
+app.patch("/api/verification/:id", async (req, res, next) => {
+	const { id } = req.params;
+
+	if (!mongoose.Types.ObjectId.isValid(id)) {
+		return res.status(400).json({ error: "No such user" });
+	}
+
+	const user = await Users.findOneAndUpdate(
+		{ _id: id },
+		{
+			...req.body,
+		}
+	);
+
+	if (!user) {
+		return res.status(400).json({ error: "No such user" });
 	}
 
 	res.status(200).json(user);
