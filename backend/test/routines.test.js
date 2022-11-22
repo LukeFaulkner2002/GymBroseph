@@ -22,8 +22,9 @@ afterEach((done) => {
 
 test("GET /api/routines", async () => {
 	const routine = await Routine.create({
-		routine: [1, 2],
-		userid: "1",
+		programid: "1",
+		numberofdays: 2,
+		numberofexercises: 3,
 	});
 
 	await supertest(app)
@@ -36,13 +37,20 @@ test("GET /api/routines", async () => {
 
 			// Check data
 			expect(response.body[0]._id).toBe(routine.id);
-			expect(response.body[0].routine).toBe(routine.routine);
-			expect(response.body[0].userid).toBe(routine.userid);
+			expect(response.body[0].programid).toBe(routine.programid);
+			expect(response.body[0].numberofdays).toBe(routine.numberofdays);
+			expect(response.body[0].numberofexercises).toBe(
+				routine.numberofexercises
+			);
 		});
 });
 
 test("POST /api/routines", async () => {
-	const data = { routine: [1, 2], userid: "1" };
+	const data = {
+		programid: "1",
+		numberofdays: 2,
+		numberofexercises: 3,
+	};
 
 	await supertest(app)
 		.post("/api/routines")
@@ -51,21 +59,24 @@ test("POST /api/routines", async () => {
 		.then(async (response) => {
 			// Check the response
 			expect(response.body._id).toBeTruthy();
-			expect(response.body.routine).toBe(data.routine);
-			expect(response.body.userid).toBe(data.userid);
+			expect(response.body.programid).toBe(data.programid);
+			expect(response.body.numberofdays).toBe(data.numberofdays);
+			expect(response.body.numberofexercises).toBe(data.numberofexercises);
 
 			// Check data in the database
 			const routine = await Routine.findOne({ _id: response.body._id });
 			expect(routine).toBeTruthy();
-			expect(routine.routine).toBe(data.routine);
-			expect(routine.userid).toBe(data.userid);
+			expect(routine.programid).toBe(data.programid);
+			expect(routine.numberofdays).toBe(data.numberofdays);
+			expect(routine.numberofexercises).toBe(data.numberofexercises);
 		});
 });
 
 test("GET /api/routines/:id", async () => {
 	const routine = await Routine.create({
-		routine: [1, 2],
-		userid: "1",
+		programid: "1",
+		numberofdays: 2,
+		numberofexercises: 3,
 	});
 
 	await supertest(app)
@@ -73,18 +84,20 @@ test("GET /api/routines/:id", async () => {
 		.expect(200)
 		.then((response) => {
 			expect(response.body._id).toBe(routine.id);
-			expect(response.body.routine).toBe(routine.routine);
-			expect(response.body.userid).toBe(routine.userid);
+			expect(response.body.programid).toBe(routine.programid);
+			expect(response.body.numberofdays).toBe(routine.numberofdays);
+			expect(response.body.numberofexercises).toBe(routine.numberofexercises);
 		});
 });
 
 test("PATCH /api/routines/:id", async () => {
 	const routine = await Routine.create({
-		routine: [1, 2],
-		userid: "1",
+		programid: "1",
+		numberofdays: 2,
+		numberofexercises: 3,
 	});
 
-	const data = { routine: "New routine", userid: "dolor sit amet" };
+	const data = { programid: "1", numberofdays: [3], numberofexercises: "4" };
 
 	await supertest(app)
 		.patch("/api/routines/" + routine.id)
@@ -93,21 +106,24 @@ test("PATCH /api/routines/:id", async () => {
 		.then(async (response) => {
 			// Check the response
 			expect(response.body._id).toBe(routine.id);
-			expect(response.body.routine).toBe(data.routine);
-			expect(response.body.userid).toBe(data.userid);
+			expect(response.body.programid).toBe(data.programid);
+			expect(response.body.numberofdays).toBe(data.numberofdays);
+			expect(response.body.numberofexercises).toBe(data.numberofexercises);
 
 			// Check the data in the database
 			const newRoutine = await Routine.findOne({ _id: response.body._id });
 			expect(newRoutine).toBeTruthy();
-			expect(newRoutine.routine).toBe(data.routine);
-			expect(newRoutine.userid).toBe(data.userid);
+			expect(newRoutine.programid).toBe(data.programid);
+			expect(newRoutine.numberofdays).toBe(data.numberofdays);
+			expect(newRoutine.numberofexercises).toBe(data.numberofexercises);
 		});
 });
 
 test("DELETE /api/routines/:id", async () => {
 	const routine = await Routine.create({
-		routine: [1, 2],
-		userid: "1",
+		programid: "1",
+		numberofdays: 2,
+		numberofexercises: 3,
 	});
 
 	await supertest(app)

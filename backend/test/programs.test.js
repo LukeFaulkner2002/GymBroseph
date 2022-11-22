@@ -22,8 +22,9 @@ afterEach((done) => {
 
 test("GET /api/programs", async () => {
 	const program = await Program.create({
-		program: [1, 2],
 		userid: "1",
+		exerciseid: ["2"],
+		routineid: "3",
 	});
 
 	await supertest(app)
@@ -36,13 +37,18 @@ test("GET /api/programs", async () => {
 
 			// Check data
 			expect(response.body[0]._id).toBe(program.id);
-			expect(response.body[0].program).toBe(program.program);
 			expect(response.body[0].userid).toBe(program.userid);
+			expect(response.body[0].exerciseid).toBe(program.exerciseid);
+			expect(response.body[0].routineid).toBe(program.routineid);
 		});
 });
 
 test("POST /api/programs", async () => {
-	const data = { program: [1, 2], userid: "1" };
+	const data = {
+		userid: "1",
+		exerciseid: ["2"],
+		routineid: "3",
+	};
 
 	await supertest(app)
 		.post("/api/programs")
@@ -51,21 +57,24 @@ test("POST /api/programs", async () => {
 		.then(async (response) => {
 			// Check the response
 			expect(response.body._id).toBeTruthy();
-			expect(response.body.program).toBe(data.program);
 			expect(response.body.userid).toBe(data.userid);
+			expect(response.body.exerciseid).toBe(data.exerciseid);
+			expect(response.body.routineid).toBe(data.routineid);
 
 			// Check data in the database
 			const program = await Program.findOne({ _id: response.body._id });
 			expect(program).toBeTruthy();
-			expect(program.program).toBe(data.program);
 			expect(program.userid).toBe(data.userid);
+			expect(program.exerciseid).toBe(data.exerciseid);
+			expect(program.routineid).toBe(data.routineid);
 		});
 });
 
 test("GET /api/programs/:id", async () => {
 	const program = await Program.create({
-		program: [1, 2],
 		userid: "1",
+		exerciseid: ["2"],
+		routineid: "3",
 	});
 
 	await supertest(app)
@@ -73,18 +82,20 @@ test("GET /api/programs/:id", async () => {
 		.expect(200)
 		.then((response) => {
 			expect(response.body._id).toBe(program.id);
-			expect(response.body.program).toBe(program.program);
 			expect(response.body.userid).toBe(program.userid);
+			expect(response.body.exerciseid).toBe(program.exerciseid);
+			expect(response.body.routineid).toBe(program.routineid);
 		});
 });
 
 test("PATCH /api/programs/:id", async () => {
 	const program = await Program.create({
-		program: [1, 2],
 		userid: "1",
+		exerciseid: ["2"],
+		routineid: "3",
 	});
 
-	const data = { program: "New program", userid: "dolor sit amet" };
+	const data = { userid: "1", exerciseid: ["3"], routineid: "4" };
 
 	await supertest(app)
 		.patch("/api/programs/" + program.id)
@@ -93,21 +104,24 @@ test("PATCH /api/programs/:id", async () => {
 		.then(async (response) => {
 			// Check the response
 			expect(response.body._id).toBe(program.id);
-			expect(response.body.program).toBe(data.program);
 			expect(response.body.userid).toBe(data.userid);
+			expect(response.body.exerciseid).toBe(data.exerciseid);
+			expect(response.body.routineid).toBe(data.routineid);
 
 			// Check the data in the database
 			const newProgram = await Program.findOne({ _id: response.body._id });
 			expect(newProgram).toBeTruthy();
-			expect(newProgram.program).toBe(data.program);
 			expect(newProgram.userid).toBe(data.userid);
+			expect(newProgram.exerciseid).toBe(data.exerciseid);
+			expect(newProgram.routineid).toBe(data.routineid);
 		});
 });
 
 test("DELETE /api/programs/:id", async () => {
 	const program = await Program.create({
-		program: [1, 2],
 		userid: "1",
+		exerciseid: ["2"],
+		routineid: "3",
 	});
 
 	await supertest(app)

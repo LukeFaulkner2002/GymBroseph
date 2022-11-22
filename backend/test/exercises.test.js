@@ -22,8 +22,10 @@ afterEach((done) => {
 
 test("GET /api/exercises", async () => {
 	const exercise = await Exercise.create({
-		exercise: [1, 2],
-		userid: "1",
+		name: "A",
+		musclegroup: "B",
+		accessibiility: "C",
+		warmupreq: true,
 	});
 
 	await supertest(app)
@@ -36,13 +38,20 @@ test("GET /api/exercises", async () => {
 
 			// Check data
 			expect(response.body[0]._id).toBe(exercise.id);
-			expect(response.body[0].exercise).toBe(exercise.exercise);
-			expect(response.body[0].userid).toBe(exercise.userid);
+			expect(response.body[0].name).toBe(exercise.name);
+			expect(response.body[0].musclegroup).toBe(exercise.musclegroup);
+			expect(response.body[0].accessibiility).toBe(exercise.accessibiility);
+			expect(response.body[0].warmupreq).toBe(exercise.warmupreq);
 		});
 });
 
 test("POST /api/exercises", async () => {
-	const data = { exercise: [1, 2], userid: "1" };
+	const data = {
+		name: "A",
+		musclegroup: "B",
+		accessibiility: "C",
+		warmupreq: true,
+	};
 
 	await supertest(app)
 		.post("/api/exercises")
@@ -51,21 +60,27 @@ test("POST /api/exercises", async () => {
 		.then(async (response) => {
 			// Check the response
 			expect(response.body._id).toBeTruthy();
-			expect(response.body.exercise).toBe(data.exercise);
-			expect(response.body.userid).toBe(data.userid);
+			expect(response.body.name).toBe(data.name);
+			expect(response.body.musclegroup).toBe(data.musclegroup);
+			expect(response.body.accessibiility).toBe(data.accessibiility);
+			expect(response.body.warmupreq).toBe(data.warmupreq);
 
 			// Check data in the database
 			const exercise = await Exercise.findOne({ _id: response.body._id });
 			expect(exercise).toBeTruthy();
-			expect(exercise.exercise).toBe(data.exercise);
-			expect(exercise.userid).toBe(data.userid);
+			expect(exercise.name).toBe(data.name);
+			expect(exercise.musclegroup).toBe(data.musclegroup);
+			expect(exercise.accessibiility).toBe(data.accessibiility);
+			expect(exercise.warmupreq).toBe(data.warmupreq);
 		});
 });
 
 test("GET /api/exercises/:id", async () => {
 	const exercise = await Exercise.create({
-		exercise: [1, 2],
-		userid: "1",
+		name: "A",
+		musclegroup: "B",
+		accessibiility: "C",
+		warmupreq: true,
 	});
 
 	await supertest(app)
@@ -73,18 +88,27 @@ test("GET /api/exercises/:id", async () => {
 		.expect(200)
 		.then((response) => {
 			expect(response.body._id).toBe(exercise.id);
-			expect(response.body.exercise).toBe(exercise.exercise);
-			expect(response.body.userid).toBe(exercise.userid);
+			expect(response.body.name).toBe(exercise.name);
+			expect(response.body.musclegroup).toBe(exercise.musclegroup);
+			expect(response.body.accessibiility).toBe(exercise.accessibiility);
+			expect(response.body.warmupreq).toBe(exercise.warmupreq);
 		});
 });
 
 test("PATCH /api/exercises/:id", async () => {
 	const exercise = await Exercise.create({
-		exercise: [1, 2],
-		userid: "1",
+		name: "A",
+		musclegroup: "B",
+		accessibiility: "C",
+		warmupreq: true,
 	});
 
-	const data = { exercise: "New exercise", userid: "1" };
+	const data = {
+		name: "D",
+		musclegroup: "E",
+		accessibiility: "F",
+		warmupreq: true,
+	};
 
 	await supertest(app)
 		.patch("/api/exercises/" + exercise.id)
@@ -93,21 +117,27 @@ test("PATCH /api/exercises/:id", async () => {
 		.then(async (response) => {
 			// Check the response
 			expect(response.body._id).toBe(exercise.id);
-			expect(response.body.exercise).toBe(data.exercise);
-			expect(response.body.userid).toBe(data.userid);
+			expect(response.body.name).toBe(data.name);
+			expect(response.body.musclegroup).toBe(data.musclegroup);
+			expect(response.body.accessibiility).toBe(data.accessibiility);
+			expect(response.body.warmupreq).toBe(data.warmupreq);
 
 			// Check the data in the database
 			const newExercise = await Exercise.findOne({ _id: response.body._id });
 			expect(newExercise).toBeTruthy();
-			expect(newExercise.exercise).toBe(data.exercise);
-			expect(newExercise.userid).toBe(data.userid);
+			expect(newExercise.name).toBe(data.name);
+			expect(newExercise.musclegroup).toBe(data.musclegroup);
+			expect(newExercise.accessibiility).toBe(data.accessibiility);
+			expect(newExercise.warmupreq).toBe(data.warmupreq);
 		});
 });
 
 test("DELETE /api/exercises/:id", async () => {
 	const exercise = await Exercise.create({
-		exercise: [1, 2],
-		userid: "1",
+		name: "A",
+		musclegroup: "B",
+		accessibiility: "C",
+		warmupreq: true,
 	});
 
 	await supertest(app)
