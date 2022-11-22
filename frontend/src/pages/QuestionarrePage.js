@@ -1,7 +1,15 @@
-import React from "react";
+import React from 'react';
+import PageTitle from '../components/PageTitle';
+import Questionarre from '../components/Questionarre';
 
-function QuestionarrePage() {
-	return <div>QuestionarrePage</div>;
-}
+const QuestionarrePage = () =>
+{
+    return(
+      <div>
+        <PageTitle />
+        <Questionarre />
+      </div>
+    );
+};
 
 export default QuestionarrePage;
