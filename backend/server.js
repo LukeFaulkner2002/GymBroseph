@@ -8,6 +8,7 @@ var blueimp = require("blueimp-md5");
 const nodemailer = require("nodemailer");
 
 //import routes
+const indexRoutes = require("./routes/index");
 const answerRoutes = require("./routes/answers");
 const programRoutes = require("./routes/programs");
 const exerciseRoutes = require("./routes/exercises");
@@ -58,6 +59,7 @@ app.use((req, res, next) => {
 });
 
 //routes
+app.use("/api", indexRoutes);
 app.use("/api/answers", answerRoutes);
 app.use("/api/programs", programRoutes);
 app.use("/api/exercises", exerciseRoutes);
@@ -75,132 +77,14 @@ process
 		console.log(`warning, ... ${warning}`);
 	});
 
-app.use(function (req, res, next) {
-	var err = new Error("Not Found");
-	err.status = 404;
-	next(err);
+app.use(function (err, req, res, next) {
+	console.error(err.stack);
+	res.status(404).send("Not Found");
 });
 
 app.use(function (err, req, res, next) {
 	console.error(err.stack);
 	res.status(500).send("Something broke!");
-});
-
-//Login and Register
-
-const Users = require("./models/usersModel");
-
-//Create a user
-app.post("/api/register", async (req, res, next) => {
-	const { firstname, lastname, login, password, email } = req.body;
-
-	let emptyFields = [];
-
-	if (!firstname) {
-		emptyFields.push("firstname");
-	}
-	if (!lastname) {
-		emptyFields.push("lastname");
-	}
-	if (!login) {
-		emptyFields.push("login");
-	}
-	if (!password) {
-		emptyFields.push("password");
-	}
-	if (!email) {
-		emptyFields.push("email");
-	}
-
-	if (emptyFields.length > 0) {
-		return res
-			.status(400)
-			.json({ error: "Please fill in all fields", emptyFields });
-	}
-
-	// add to the database
-
-	try {
-		const exercise = await Users.create({
-			firstname,
-			lastname,
-			login,
-			difficulty,
-			password: blueimp(password),
-			email,
-		});
-		res.status(200).json(exercise);
-	} catch (error) {
-		res.status(400).json({ error: error.message });
-	}
-});
-
-app.post("/api/login", async (req, res, next) => {
-	const { login, password } = req.body;
-
-	const user = Users.find({ login: login, password: blueimp(password) });
-
-	if (!user) {
-		return res.status(404).json({ error: "No such user" });
-	}
-
-	res.status(200).json(user);
-});
-
-app.get("/api/verification", async (req, res, next) => {
-	const { email } = req.body;
-
-	const user = Users.find({ email });
-
-	if (!user) {
-		return res.status(404).json({ error: "No such user" });
-	}
-
-	//email verification
-	let transporter = nodemailer.createTransport({
-		service: "gmail",
-		auth: {
-			user: process.env.AUTH_EMAIL,
-			pass: process.env.AUTH_PASS,
-		},
-	});
-
-	//nodemailer
-	transporter.verify((e, s) => {
-		if (e) {
-			console.log(e);
-			return res.status(500).json({ error: e });
-		} else {
-			console.log("ready for messages");
-			console.log(s);
-		}
-	});
-
-	console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-
-	res.status(200).json(user);
-});
-
-//To be used after the email verification
-app.patch("/api/verification/:id", async (req, res, next) => {
-	const { id } = req.params;
-
-	if (!mongoose.Types.ObjectId.isValid(id)) {
-		return res.status(400).json({ error: "No such user" });
-	}
-
-	const user = await Users.findOneAndUpdate(
-		{ _id: id },
-		{
-			...req.body,
-		}
-	);
-
-	if (!user) {
-		return res.status(400).json({ error: "No such user" });
-	}
-
-	res.status(200).json(user);
 });
 
 module.exports = app;
