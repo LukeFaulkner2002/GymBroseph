@@ -19,7 +19,7 @@ const exercisesSchema = new Schema(
 		warmupreq: {
 			type: Boolean,
 			required: false,
-			default: true,
+			default: false,
 		},
 	},
 	{ timestamps: true }
