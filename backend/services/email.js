@@ -11,12 +11,12 @@ let transporter = nodemailer.createTransport({
 	},
 });
 
-async function verifyUserEmail(userEmail) {
+async function verifyUserEmail(name, userEmail) {
 	try {
 		const mailData = {
 			from: process.env.AUTH_EMAIL,
 			to: userEmail,
-			subject: "Verify Your Email",
+			subject: "Hello, " + name,
 			text: "test",
 			html: "<b> hello world </b>",
 		};
