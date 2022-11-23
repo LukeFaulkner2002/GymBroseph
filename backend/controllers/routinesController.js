@@ -27,12 +27,12 @@ const getRoutine = async (req, res) => {
 
 //create a new routine
 const createRoutine = async (req, res) => {
-	const { programid, numberofdays, numberofexercises } = req.body;
+	const { userid, numberofdays, numberofexercises } = req.body;
 
 	let emptyFields = [];
 
-	if (!programid) {
-		emptyFields.push("programid");
+	if (!userid) {
+		emptyFields.push("userid");
 	}
 	if (!numberofdays) {
 		emptyFields.push("load");
@@ -41,15 +41,13 @@ const createRoutine = async (req, res) => {
 		emptyFields.push("numberofexercises");
 	}
 	if (emptyFields.length > 0) {
-		return res
-			.status(400)
-			.json({ error: "Please fill in all fields", emptyFields });
+		return res.status(400).json({ error: "Please fill in all fields", emptyFields });
 	}
 
 	// add to the database
 	try {
 		const routine = await Routines.create({
-			programid,
+			userid,
 			numberofdays,
 			numberofexercises,
 		});

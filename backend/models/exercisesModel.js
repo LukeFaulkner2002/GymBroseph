@@ -21,6 +21,10 @@ const exercisesSchema = new Schema(
 			required: false,
 			default: false,
 		},
+		userid: {
+			type: String,
+			required: false,
+		},
 	},
 	{ timestamps: true }
 );

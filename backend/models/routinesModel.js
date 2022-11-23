@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const routineSchema = new Schema(
 	{
-		programid: {
+		userid: {
 			type: String,
 			required: true,
 		},

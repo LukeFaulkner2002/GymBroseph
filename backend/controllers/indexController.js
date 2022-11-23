@@ -23,11 +23,14 @@ const createUser = async (req, res) => {
 	if (!email) {
 		emptyFields.push("email");
 	}
-
+	// if (!exerciseid) {
+	// 	emptyFields.push("exerciseid");
+	// }
+	// if (!routineid) {
+	// 	emptyFields.push("routineid");
+	// }
 	if (emptyFields.length > 0) {
-		return res
-			.status(400)
-			.json({ error: "Please fill in all fields", emptyFields });
+		return res.status(400).json({ error: "Please fill in all fields", emptyFields });
 	}
 
 	// add to the database
@@ -103,9 +106,27 @@ const updateUser = async (req, res, next) => {
 	res.status(204).json(user);
 };
 
+//Delete User
+const deleteUser = async (req, res) => {
+	const { id } = req.params;
+
+	if (!mongoose.Types.ObjectId.isValid(id)) {
+		return res.status(400).json({ error: "No such user" });
+	}
+
+	const user = await Users.findOneAndDelete({ _id: id });
+
+	if (!user) {
+		return res.status(400).json({ error: "No such user" });
+	}
+
+	res.status(204).json(user);
+};
+
 module.exports = {
 	createUser,
 	loginUser,
 	verifyEmail,
 	updateUser,
+	deleteUser,
 };

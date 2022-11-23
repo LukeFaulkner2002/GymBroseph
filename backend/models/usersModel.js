@@ -10,6 +10,14 @@ const usersSchema = new Schema(
 		password: { type: String, required: true },
 		email: { type: String, required: true, unique: true },
 		confirmed: { type: Boolean, required: false, default: false },
+		exerciseid: {
+			type: [String],
+			required: false,
+		},
+		answer: {
+			type: [Number],
+			required: false,
+		},
 	},
 	{ timestamps: true }
 );
