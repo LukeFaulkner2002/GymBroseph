@@ -43,7 +43,9 @@ const createProgram = async (req, res) => {
 		emptyFields.push("routineid");
 	}
 	if (emptyFields.length > 0) {
-		return res.status(400).json({ error: "Please fill in all fields", emptyFields });
+		return res
+			.status(400)
+			.json({ error: "Please fill in all fields", emptyFields });
 	}
 
 	// add to the database
@@ -73,7 +75,7 @@ const deleteProgram = async (req, res) => {
 		return res.status(400).json({ error: "No such program" });
 	}
 
-	res.status(200).json(program);
+	res.status(204).json(program);
 };
 
 //update a program

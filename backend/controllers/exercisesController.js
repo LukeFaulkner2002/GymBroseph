@@ -22,7 +22,7 @@ const getExercise = async (req, res) => {
 		return res.status(404).json({ error: "No such exercise" });
 	}
 
-	res.status(200).json(exercise);
+	res.status(204).json(exercise);
 };
 
 //create a new exercise
@@ -45,7 +45,9 @@ const createExercise = async (req, res) => {
 	}
 
 	if (emptyFields.length > 0) {
-		return res.status(400).json({ error: "Please fill in all fields", emptyFields });
+		return res
+			.status(400)
+			.json({ error: "Please fill in all fields", emptyFields });
 	}
 
 	// add to the database

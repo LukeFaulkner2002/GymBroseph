@@ -41,12 +41,18 @@ const createRoutine = async (req, res) => {
 		emptyFields.push("numberofexercises");
 	}
 	if (emptyFields.length > 0) {
-		return res.status(400).json({ error: "Please fill in all fields", emptyFields });
+		return res
+			.status(400)
+			.json({ error: "Please fill in all fields", emptyFields });
 	}
 
 	// add to the database
 	try {
-		const routine = await Routines.create({ programid, numberofdays, numberofexercises });
+		const routine = await Routines.create({
+			programid,
+			numberofdays,
+			numberofexercises,
+		});
 		res.status(200).json(routine);
 	} catch (error) {
 		res.status(400).json({ error: error.message });
@@ -67,7 +73,7 @@ const deleteRoutine = async (req, res) => {
 		return res.status(400).json({ error: "No such routine" });
 	}
 
-	res.status(200).json(routine);
+	res.status(204).json(routine);
 };
 
 //update a routine

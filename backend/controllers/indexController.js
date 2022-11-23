@@ -1,18 +1,18 @@
 const Users = require("../models/usersModel");
 mongoose = require("mongoose");
-const { verifyUserEmail } = require("../services/email");
+const blueimp = require("blueimp-md5");
 
 //Create a user
 const createUser = async (req, res) => {
-	const { firstname, lastname, login, password, email } = req.body;
+	const { firstName, lastName, login, password, email } = req.body;
 
 	let emptyFields = [];
 
-	if (!firstname) {
-		emptyFields.push("firstname");
+	if (!firstName) {
+		emptyFields.push("firstName");
 	}
-	if (!lastname) {
-		emptyFields.push("lastname");
+	if (!lastName) {
+		emptyFields.push("lastName");
 	}
 	if (!login) {
 		emptyFields.push("login");
@@ -33,15 +33,14 @@ const createUser = async (req, res) => {
 	// add to the database
 
 	try {
-		const exercise = await Users.create({
-			firstname,
-			lastname,
+		const user = await Users.create({
+			firstName,
+			lastName,
 			login,
-			difficulty,
 			password: blueimp(password),
 			email,
 		});
-		res.status(200).json(exercise);
+		res.status(200).json(user);
 	} catch (error) {
 		res.status(400).json({ error: error.message });
 	}
@@ -77,6 +76,8 @@ const verifyEmail = async (req, res) => {
 		return res.status(404).json({ error: "No such user" });
 	}
 
+	verifyUserEmail(user.firstName, user.email);
+
 	res.status(200).json(user);
 };
 
@@ -99,7 +100,7 @@ const updateUser = async (req, res, next) => {
 		return res.status(404).json({ error: "No such user" });
 	}
 
-	res.status(200).json(user);
+	res.status(204).json(user);
 };
 
 module.exports = {

@@ -39,7 +39,9 @@ const createAnswer = async (req, res) => {
 	}
 
 	if (emptyFields.length > 0) {
-		return res.status(400).json({ error: "Please fill in all fields", emptyFields });
+		return res
+			.status(400)
+			.json({ error: "Please fill in all fields", emptyFields });
 	}
 
 	// add to the database
@@ -65,7 +67,7 @@ const deleteAnswer = async (req, res) => {
 		return res.status(400).json({ error: "No such answer" });
 	}
 
-	res.status(200).json(answer);
+	res.status(204).json(answer);
 };
 
 //update a answer
