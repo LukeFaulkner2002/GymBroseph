@@ -6,6 +6,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 var blueimp = require("blueimp-md5");
 const nodemailer = require("nodemailer");
+const jwt = require("jsonwebtoken");
 
 //import routes
 const indexRoutes = require("./routes/index");
@@ -85,6 +86,23 @@ app.use(function (err, req, res, next) {
 app.use(function (err, req, res, next) {
 	console.error(err.stack);
 	res.status(500).send("Something broke!");
+});
+
+//Email verification
+app.get("/verify/:token", (req, res) => {
+	const { token } = req.params;
+
+	// Verifing the JWT token
+	jwt.verify(token, "ourSecretKey", function (err, decoded) {
+		if (err) {
+			console.log(err);
+			res.send(
+				"Email verification failed possibly the link is invalid or expired"
+			);
+		} else {
+			res.send("Email verifified successfully");
+		}
+	});
 });
 
 module.exports = app;
