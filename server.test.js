@@ -10,9 +10,10 @@ describe("Api Super tests", () => {
 			password: "JDpassword123",
 			email: "John.doe@gmail.com",
 		};
-
-		const response = await request(app).post("/api/register");
-		expect(response.body).toEqual();
+		// afterAll(async () => {
+		// 	await request(app).delete(`/todo/${newTodo.id}`);
+		// });
+		const response = await (await request(app).post("/api/register")).send(newRegister);
 		expect(response.body).toHaveLength(0);
 		expect(response.statusCode).toBe(200);
 	});
@@ -23,7 +24,7 @@ describe("Api Super tests", () => {
 			routineIndex: 1,
 			newExerciseId: "636b4024dbe4388e667522f2",
 		};
-		const response = await request(app).post("/api/replaceExercise");
+		const response = await request(app).post("/api/replaceExercise").send(newExercise);
 		expect(response.body).toHaveLength(0);
 		expect(response.statusCode).toBe(200);
 	});
@@ -32,7 +33,7 @@ describe("Api Super tests", () => {
 			login: "JohnDoe123",
 			password: "JDpassword123",
 		};
-		const response = await request(app).post("/api/login");
+		const response = await (await request(app).post("/api/login")).send(newLogin);
 		expect(response.body).toEqual({
 			id: "string",
 			firstname: "string",
@@ -50,7 +51,7 @@ describe("Api Super tests", () => {
 			warmUpReq: "Y",
 			pageNum: 0,
 		};
-		const response = await request(app).post("/api/searchExercises");
+		const response = await (await request(app).post("/api/searchExercises")).send(newSearch);
 		expect(response.body).toHaveLength(0);
 		expect(response.statusCode).toBe(200);
 	});
@@ -58,7 +59,7 @@ describe("Api Super tests", () => {
 		const newRequest = {
 			email: "john.doe@gmail.com",
 		};
-		const response = await request(app).post("/api/resetPassword");
+		const response = await request(app).post("/api/resetPassword").send(newRequest);
 		expect(response.body).toHaveLength(0);
 		expect(response.statusCode).toBe(200);
 	});
@@ -68,26 +69,26 @@ describe("Api Super tests", () => {
 			oldPassword: "oldpassword123",
 			newPassword: "newpassword123",
 		};
-		const response = await request(app).post("/api/changePassword");
+		const response = await request(app).post("/api/changePassword").send(newPassword);
 		expect(response.body).toHaveLength(0);
 		expect(response.statusCode).toBe(200);
 	});
 	it("tests /populateTable endpoints", async () => {
-		const newPassword = {
+		const id = {
 			_id: "637d5b5a319d03a7e50335f5",
 		};
-		const response = await request(app).post("/api/populateTable");
+		const response = await request(app).post("/api/populateTable").send(id);
 		expect(response.body).toHaveLength(0);
 		expect(response.statusCode).toBe(200);
 	});
 	it("tests /autoFillRoutines endpoints", async () => {
-		const newPassword = {
+		const newQuery = {
 			equipment: "Commercial Gym",
 			time: "Y",
 			muscleGroup: "Chest",
 			_id: "637d5b5a319d03a7e50335f5",
 		};
-		const response = await request(app).post("/api/autoFillRoutines");
+		const response = await (await request(app).post("/api/autoFillRoutines")).send(newQuery);
 		expect(response.body).toHaveLength(0);
 		expect(response.statusCode).toBe(200);
 	});
