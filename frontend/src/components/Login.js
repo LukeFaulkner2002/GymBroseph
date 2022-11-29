@@ -18,7 +18,9 @@ function buildPath(route) {
 function Login() {
     const [userName, setName] = useState('');
     const [password, setPassword] = useState('');
-    //const [message, setMessage] = useState('');
+    const [message, setMessage] = useState('');
+    const [userNameError, setUserNameError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
 
     const NameChangeHandler = (event) => {
         setName(event.target.value);
@@ -30,34 +32,58 @@ function Login() {
 
     const goToRegister = async event => {
         event.preventDefault();
-        localStorage.removeItem("user_data")
+        localStorage.removeItem("user_data");
         window.location.href = '/register';
+    };
+
+    const goToResetPassword = async event => {
+        event.preventDefault();
+    
+        window.location.href = '/reset';
     };
 
     const doLogin = async event => {
         event.preventDefault();
-        var obj = { login: userName, password: password };
-        var js = JSON.stringify(obj);
+        let formIsValid = true;
 
-        try {
-            const response = await fetch(buildPath('api/login'), { method: 'POST', body: js, headers: { 'Content-Type': 'application/json' } });
-            var res = JSON.parse(await response.text());
+        setMessage("");
+        setUserNameError('');
+        setPasswordError('');
 
-            if (res.firstName === "") {
-                //setMessage('User/Password combination incorrect');
+        if (userName.length < 3) {
+            setUserNameError('Username must be at least 3 characters.');
+            formIsValid = false;
+        }
+        if (password.length < 1) {
+            setPasswordError("Don't forget your password");
+            formIsValid = false;
+        }
+
+        if (formIsValid == true) {
+            var obj = { login: userName, password: password };
+            var js = JSON.stringify(obj);
+
+            try {
+                const response = await fetch(buildPath('api/login'), { method: 'POST', body: js, headers: { 'Content-Type': 'application/json' } });
+                var res = JSON.parse(await response.text());
+
+                if (res.firstName === "") {
+                    setMessage('Invalid Login.');
+                }
+                else {
+                    var user = { firstName: res.firstName, lastName: res.lastName, id: res.id }
+                    localStorage.setItem('user_data', JSON.stringify(user));
+                    setMessage('');
+
+                    window.location.href = '/home';
+                }
             }
-            else {
-                var user = { firstName: res.firstName, lastName: res.lastName }
-                localStorage.setItem('user_data', JSON.stringify(user));
-                //setMessage('');
-
-                window.location.href = '/home';
+            catch (e) {
+                alert(e.toString());
+                return;
             }
         }
-        catch (e) {
-            alert(e.toString());
-            return;
-        }
+
     };
 
     return (
@@ -72,28 +98,52 @@ function Login() {
                 whiteSpace: "nowrap"
             }}
         >
-            <Container className="center w-25 p-3 bgwhite rounded-3">
-                <Card className="md-3" bg={'info'} text={'white'} style={{ color: "#000" }}>
-                    <Form onSubmit={doLogin}>
-                        <Row>
-                            <Col>
-                                <Row>
-                                    <Form.Group controlId="form.userName">
-                                        <Form.Control type='userName' value={userName} onChange={NameChangeHandler} placeholder="Username" />
-                                    </Form.Group>
-                                </Row>
-                                <Row>
-                                    <Form.Group controlId='form.password'>
-                                        <Form.Control type='password' value={password} onChange={PasswordChangeHandler} placeholder="Password" />
-                                    </Form.Group>
-                                </Row>
-                            </Col>
-                        </Row>
-                        <Button variant='success' type="submit">Login</Button>
-                    </Form>
+            <h1>
+                <Card className="text-center textwhite" bg="primary">
+                    <Card.Header>Gymbroseph Exercise Manager and Randomizer</Card.Header>
                 </Card>
+            </h1>
+            <Container className="center w-25 p-3 bggrey rounded-3">
+                <Card className="bgwhite">
+                    <Card.Header as="h5">Login:</Card.Header>
+                    <Card.Body>
+                        <Form onSubmit={doLogin}>
+                            <Row>
+                                <Col>
+                                    <br />
+                                    <Row>
+                                        <Form.Group controlId="form.userName">
+                                            <Form.Control type='userName' value={userName} onChange={NameChangeHandler} placeholder="Username" />
+                                        </Form.Group>
+                                        <small id="userNameHelp" className="text-danger form-text">
+                                            {userNameError}
+                                        </small>
+                                    </Row>
+                                    <br />
+                                    <Row>
+                                        <Form.Group controlId='form.password'>
+                                            <Form.Control type='password' value={password} onChange={PasswordChangeHandler} placeholder="Password" />
+                                        </Form.Group>
+                                        <small id="passwordHelp" className="text-danger form-text">
+                                            {passwordError}
+                                        </small>
+                                    </Row>
+                                    <br />
+                                </Col>
+                            </Row>
+                            <Button variant='success' type="submit">Login</Button>
+                            <br />
+                        </Form>
+                    </Card.Body>
+                </Card>
+                <span id="loginResult" className="text-danger form-text">{message}</span>
+                <br />
+                <br />
                 <Form onSubmit={goToRegister}>
-                    <Button variant='primary' type="submit">Register</Button>
+                    <Button variant='primary' type="submit">Go To Register</Button>
+                </Form>
+                <Form onSubmit={goToResetPassword}>
+                    <Button variant='danger' type="submit">Reset Password</Button>
                 </Form>
             </Container>
         </div>

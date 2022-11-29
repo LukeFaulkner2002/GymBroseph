@@ -1,18 +1,15 @@
 import React from 'react';
-import PageTitle from '../components/PageTitle';
+//import PageTitle from '../components/PageTitle';
 //import LoggedInName from '../components/LoggedInName';
-import Home from '../components/Home';
+import Routines from '../components/Routines';
 
 const HomePage = () =>
 {
     return(
         <div>
-            <PageTitle />
-            <Home />
+            <Routines />
         </div>
     );
 }
-
-//<LoggedInName />
 
 export default HomePage;
