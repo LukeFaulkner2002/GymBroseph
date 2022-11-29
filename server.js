@@ -1261,6 +1261,26 @@ app.get("/api/verification/:token", async (req, res) => {
 	}
 });
 
+//Deletes User
+app.post("/api/deleteuser", async (req, res, next) => {
+	const { login, password } = req.body;
+	const db = client.db("gymdb");
+	const results = await db
+		.collection("users")
+		.findOneAndDelete({ Username: login, Password: blueimp(password) });
+	var error = "";
+	var id = -1;
+	var fn = "";
+	var ln = "";
+	if (results.length > 0) {
+		id = results[0]._id;
+		fn = results[0].FirstName;
+		ln = results[0].LastName;
+	}
+	var ret = { id: id, firstName: fn, lastName: ln, error: "" };
+	res.status(200).json(ret);
+});
+
 //Email verification token generator
 async function tokenSender(userEmail, userId) {
 	const transporter = nodemailer.createTransport({
