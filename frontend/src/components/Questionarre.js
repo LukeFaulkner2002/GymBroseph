@@ -92,7 +92,7 @@ const Questionarre = () => {
             </h1>
             <Container className="w-50 p-3 bggrey rounded-3">
                 <Card className="bgwhite">
-                    <Card.Header as="h5">Randomizer Questionarre:</Card.Header>
+                    <Card.Header as="h5">Randomizer Questionnare:</Card.Header>
                     <Form onSubmit={submitQuestionarre}>
                         <br />
                         <Row>

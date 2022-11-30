@@ -34,10 +34,44 @@ function Register() {
     const [lastNameError, setLastNameError] = useState('');
     const [emailError, setEmailError] = useState('');
     const [message, setMessage] = useState('');
+    const [passCode, setPassCode] = useState('');
+    const [passCodeMessage, setPassCodeMessage] = useState('');
+
+    const PassCodeChangeHandler = (event) => {
+        setPassCode(event.target.value);
+    };
 
     const goBackToLogin = async event => {
         event.preventDefault();
         window.location.href = '/';
+    };
+
+    const Verify = async event => {
+        event.preventDefault();
+
+        var obj = { passCode: passCode };
+        var js = JSON.stringify(obj);
+        try {
+            console.log(js);
+            const response = await fetch(buildPath('api/verify'), { method: 'POST', body: js, headers: { 'Content-Type': 'application/json' } });
+            var res = JSON.parse(await response.text());
+            var sd = JSON.parse(JSON.stringify(res));
+            console.log(sd.results.modifiedCount);
+
+            if (sd.results.modifiedCount != 0) {
+                setPassCodeMessage("Verification successful!");
+                return;
+            }
+
+            console.log(res);
+            setPassCodeMessage("Verification went wrong.");
+
+            return;
+        }
+        catch (e) {
+            alert(e.toString());
+            return;
+        }
     };
 
     const doRegister = async event => {
@@ -81,7 +115,8 @@ function Register() {
 
                 var res = JSON.parse(await response.text());
 
-                setMessage('Register Successful. Check email for verification');
+                //console.log(res);
+                setMessage('Register Successful. Check email for verification.');
                 return;
             }
             catch (e) {
@@ -113,7 +148,7 @@ function Register() {
                     <Card.Header>Gymbroseph Exercise Manager and Randomizer</Card.Header>
                 </Card>
             </h1>
-            <Container className="center w-25 p-3 bggrey rounded-3">
+            <Container className=" w-25 p-3 bggrey rounded-3">
                 <Card className="bqwhite">
                     <Card.Header as="h5">Register:</Card.Header>
                     <Card.Body>
@@ -184,6 +219,24 @@ function Register() {
                     </Card.Body>
                 </Card>
                 <span id="registerResult" className="text-danger form-text">{message}</span>
+                <br />
+                <Card className="bqwhite">
+                    <Card.Header as="h5">Verify Email:</Card.Header>
+                    <Card.Body>
+                        <Form.Group controlId="form.password">
+                            <Form.Control type='password' value={passCode} onChange={PassCodeChangeHandler} placeholder="Verification Code" />
+                        </Form.Group>
+
+                        <br />
+                        <br />
+                        <Form onSubmit={Verify}>
+                            <Button variant='success' type="submit">Verify Email</Button>
+                        </Form>
+                    </Card.Body>
+                </Card>
+                <small id="verificationHelp" className="text-danger form-text">
+                    {passCodeMessage}
+                </small>
                 <br />
                 <br />
                 <Form onSubmit={goBackToLogin}>

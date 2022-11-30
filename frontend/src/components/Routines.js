@@ -176,7 +176,7 @@ const Routines = () => {
                     <Row>
                         <Col>
                             <Form onSubmit={goToQuestionarre}>
-                                <Button variant='primary' type="submit">Do Questionarre</Button>
+                                <Button variant='primary' type="submit">Complete Questionnare</Button>
                             </Form>
                         </Col>
                         <Col>
