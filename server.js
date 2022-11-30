@@ -841,10 +841,7 @@ app.use((req, res, next) => {
 		"Access-Control-Allow-Headers",
 		"Origin, X-Requested-With, Content-Type, Accept, Authorization"
 	);
-	res.setHeader(
-		"Access-Control-Allow-Methods",
-		"GET, POST, PATCH, DELETE, OPTIONS"
-	);
+	res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS");
 	next();
 });
 
@@ -917,14 +914,7 @@ app.post("/api/autoFillRoutines", async (req, res, next) => {
 			})
 			.toArray();
 
-		const all = results1.concat(
-			results2,
-			results3,
-			results4,
-			results5,
-			results6,
-			results7
-		);
+		const all = results1.concat(results2, results3, results4, results5, results6, results7);
 
 		for (var i = 0; i < 3; ++i) {
 			var random = parseInt(Math.random() * all.length);
@@ -951,22 +941,10 @@ app.post("/api/autoFillRoutines", async (req, res, next) => {
 		var results3;
 		var results4;
 		if (equipment == "Community Gym") {
-			results1 = await db
-				.collection("exercises")
-				.find({ MuscleGroup: "Quads" })
-				.toArray();
-			results2 = await db
-				.collection("exercises")
-				.find({ MuscleGroup: "Hamstrings" })
-				.toArray();
-			results3 = await db
-				.collection("exercises")
-				.find({ MuscleGroup: "Glutes" })
-				.toArray();
-			results4 = await db
-				.collection("exercises")
-				.find({ MuscleGroup: "Calves" })
-				.toArray();
+			results1 = await db.collection("exercises").find({ MuscleGroup: "Quads" }).toArray();
+			results2 = await db.collection("exercises").find({ MuscleGroup: "Hamstrings" }).toArray();
+			results3 = await db.collection("exercises").find({ MuscleGroup: "Glutes" }).toArray();
+			results4 = await db.collection("exercises").find({ MuscleGroup: "Calves" }).toArray();
 		} else {
 			results1 = await db
 				.collection("exercises")
@@ -1023,10 +1001,7 @@ app.post("/api/autoFillRoutines", async (req, res, next) => {
 
 	const results = await db
 		.collection("users")
-		.updateOne(
-			{ _id: ObjectId(_id) },
-			{ $set: { Routine1: routine1, Routine2: routine2 } }
-		);
+		.updateOne({ _id: ObjectId(_id) }, { $set: { Routine1: routine1, Routine2: routine2 } });
 	//const results = await db.collection('users').find({ _id: ObjectId(_id) }).toArray();
 
 	var ret = { results: results };
@@ -1083,10 +1058,7 @@ app.post("/api/resetPassword", async (req, res, next) => {
 	const db = client.db("gymdb");
 	var results = await db
 		.collection("users")
-		.updateMany(
-			{ Email: email, EmailVerified: "1" },
-			{ $set: { Password: blueimp(newPassword) } }
-		);
+		.updateMany({ Email: email, EmailVerified: "1" }, { $set: { Password: blueimp(newPassword) } });
 	if (results.modifiedCount != 0) {
 		passwordEmailReset(newPassword, email);
 	}
@@ -1238,9 +1210,7 @@ app.get("/api/verification/:token", async (req, res) => {
 		jwt.verify(token, "ourSecretKey", async function (err, decoded) {
 			if (err) {
 				console.log(err);
-				res.send(
-					"Email verification failed. The link may be invalid or expired."
-				);
+				res.send("Email verification failed. The link may be invalid or expired.");
 			} else {
 				res.send(
 					"Email verified successfully! Now you can reset your password if you ever forget it."
@@ -1249,10 +1219,7 @@ app.get("/api/verification/:token", async (req, res) => {
 				Userid = json.data;
 				const results = await db
 					.collection("users")
-					.updateOne(
-						{ _id: ObjectId(Userid) },
-						{ $set: { EmailVerified: "1" } }
-					);
+					.updateOne({ _id: ObjectId(Userid) }, { $set: { EmailVerified: "1" } });
 				console.log(results);
 			}
 		});
